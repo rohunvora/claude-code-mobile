@@ -264,3 +264,124 @@ Found a better way to do something? Open a PR!
 ## License
 
 MIT — do whatever you want with this.
+
+---
+
+## 📱 Mobile Quick Reference (Save This!)
+
+### Daily Workflow
+
+**First Connection:**
+```bash
+# Connect via Termius using your Tailscale IP
+ssh yourusername@100.x.x.x
+
+# Start tmux session
+tmux new -s claude
+
+# Launch Claude Code
+claude
+```
+
+**Disconnecting (Without Killing Claude):**
+```
+Ctrl+B, then D
+```
+☝️ This detaches but keeps everything running on your Mac
+
+**Reconnecting Later:**
+```bash
+# Connect via Termius again
+ssh yourusername@100.x.x.x
+
+# Reattach to your session
+tmux attach -t claude
+```
+You're right back where you left off!
+
+---
+
+### Essential Commands
+
+| What You Want | Type This |
+|--------------|-----------|
+| Start new tmux session | `tmux new -s claude` |
+| Pause & keep running | `Ctrl+B` then `D` |
+| Resume session | `tmux attach -t claude` |
+| See all sessions | `tmux ls` |
+| Kill session completely | `tmux kill-session -t claude` |
+| Start Claude Code | `claude` |
+| Exit Claude Code | Type `exit` or `/exit` |
+
+---
+
+### Your Connection Info
+
+**Local Network Only:**
+```bash
+# Your Mac's local IP (home WiFi only)
+ipconfig getifaddr en0
+```
+
+**From Anywhere (Tailscale):**
+```bash
+# Your Mac's Tailscale IP (works everywhere)
+/Applications/Tailscale.app/Contents/MacOS/Tailscale ip -4
+```
+
+In Termius, use your **Tailscale IP** (`100.x.x.x`) to connect from anywhere.
+
+---
+
+### Switching Between Phone & Desktop
+
+The tmux session runs **on your Mac**, so you can access it from anywhere:
+
+**On Phone (Termius):**
+```bash
+tmux attach -t claude
+# work work work
+Ctrl+B D  # detach
+```
+
+**Later on Desktop (Terminal):**
+```bash
+tmux attach -t claude
+# continue exactly where you left off
+```
+
+You can even attach from **both at the same time** - they show the same thing in real-time!
+
+---
+
+### How tmux Saves Your Butt
+
+| Without tmux | With tmux |
+|--------------|-----------|
+| Signal drops → Claude dies | Signal drops → Claude keeps running |
+| Switch apps → Session lost | Switch apps → Come back anytime |
+| Have to restart every time | Pick up exactly where you left off |
+| Long tasks interrupted | Tasks complete even when disconnected |
+
+**Rule of thumb:** Always start Claude Code inside tmux on mobile.
+
+---
+
+### Quick Troubleshooting
+
+**"Session not found"**
+- You haven't started a tmux session yet
+- Run: `tmux new -s claude`
+
+**"Can't connect"**
+- On local WiFi? Use your local IP
+- From outside? Use Tailscale IP (`100.x.x.x`)
+- Make sure Tailscale is running on both devices
+
+**"Session died anyway"**
+- You probably didn't start Claude inside tmux
+- Always: `tmux new -s claude` → THEN → `claude`
+
+**"Everything is frozen"**
+- Try: `Ctrl+C` to cancel current operation
+- Last resort: `Ctrl+B D` to detach, then reattach
